@@ -1,6 +1,6 @@
 import json
 import os
-from constants_module import constants
+import config.constants as constants
 
 
 counter_data = {}

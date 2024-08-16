@@ -1,5 +1,4 @@
-
-from constants_module import constants 
+import config.constants as constants
 from openai import OpenAI
 import os
 from ratelimit import limits, sleep_and_retry

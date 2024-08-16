@@ -1,9 +1,8 @@
 import requests
-from openai import OpenAI
+from api_requests_module.open_ai_request import OpenAIRequest
 from abc import ABC, abstractmethod
 from telegram import Update
 from telegram.ext import CallbackContext
-from constants import constants
 from counter_module import counter
 import os
 
@@ -41,34 +40,22 @@ class WeatherCommand(Command):
         weather_description = data['weather'][0]['description']
         temperature = data['main']['temp']
 
-        recommendation = self.get_recommendation(weather_description)
-
-        message = f"El clima en {city} es {weather_description} con una temperatura de {temperature}°C. {recommendation}"
+        message = f"El clima en {city} es {weather_description} con una temperatura de {temperature}°C. "
+        message += '\n\n' + self.get_open_ai_tips(message)
         return message
 
 
-    def get_recommendation(self, weather_description):
-        weather_description = weather_description.lower()
-        if "lluvia" in weather_description:
-            return "Lleva un paraguas ☔"
-        elif "nieve" in weather_description:
-            return "Abrígate bien, está nevando ❄️"
-        elif "despejado" in weather_description:
-            return "Disfruta del buen tiempo 🌞"
-        elif "nublado" in weather_description or "muy nuboso" in weather_description:
-            return "El cielo está nublado, pero no olvides sonreír 😊"
-        elif "tormenta" in weather_description:
-            return "Mantente a salvo, hay tormenta ⛈️"
-        elif "niebla" in weather_description:
-            return "Conduce con cuidado, hay niebla 🌫️"
-        elif "calor" in weather_description:
-            return "Mantente hidratado, hace calor 🔥"
-        elif "frío" in weather_description:
-            return "Abrígate bien, hace frío 🥶"
-        elif "viento" in weather_description:
-            return "Cuidado con el viento fuerte 🌬️"
-        else:
-            return "Ten un buen día 😊"
+    def get_open_ai_tips(self, message):
+        request_text = f"Dado el siguiente mensaje:\n\n{message}\n\n Dar una recomendacion segun la descripcion el clima y ofrecer consejos adicionales o información interesante sobre la ciudad. Se breve"
+        open_ai_requests = OpenAIRequest()
+        response = open_ai_requests.make_request(request_text)
+
+        # Extract the sentiment analysis result
+        tips_and_information: str = ''
+        for chunk in response:
+            if chunk.choices[0].delta.content is not None:
+                tips_and_information += chunk.choices[0].delta.content
+        return tips_and_information
 
 
     async def handle_error_response(self, update, context, url, response):
@@ -98,9 +85,6 @@ class CounterCommand(Command):
 class SentimentAnalysisCommand(Command):
     async def execute(self, update: Update, context: CallbackContext):
         
-        client = OpenAI(
-        api_key=os.getenv('OPEN_AI_API_KEY')
-        )
         # Collect the conversation history
         chat_id = update.effective_chat.id
         messages = context.bot_data.get(chat_id, [])
@@ -108,15 +92,12 @@ class SentimentAnalysisCommand(Command):
         # Prepare the conversation text
         conversation_text = "\n".join(messages)
 
+        # Prepare request text 
+        request_text = 'Analiza el sentimiento de la siguiente conversacion y clasificala como positivo, negativo o neutral. Provee una breve explicacion:'
+        request_text += f'\n\n{conversation_text}'
         # Send the conversation to OpenAI for sentiment analysis
-        response = client.chat.completions.create(
-            model=constants.OPEN_AI_MODEL,
-            messages=[
-                #{"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": f"Analyze the sentiment of the following conversation and classify it as positive, negative, or neutral. Provide a brief explanation:\n\n{conversation_text}"}
-            ],
-            stream=True
-        )
+        open_ai_requests = OpenAIRequest()
+        response = open_ai_requests.make_request(request_text)
 
         # Extract the sentiment analysis result
         sentiment_analysis: str = ''
@@ -127,3 +108,4 @@ class SentimentAnalysisCommand(Command):
 
         # Send the result back to the user
         await context.bot.send_message(chat_id=chat_id, text=sentiment_analysis)
+

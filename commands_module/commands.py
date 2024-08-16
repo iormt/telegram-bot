@@ -24,7 +24,8 @@ class WeatherCommand(Command):
         url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric&lang=es"
         response = requests.get(url)
         """
-        response = OpenWeatherMapRequest.make_request(city)
+        weather_requests = OpenWeatherMapRequest()
+        response = weather_requests.make_request(city)
         if response.status_code != 200:
             await self.handle_error_response(update, context, response)
             return

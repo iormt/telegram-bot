@@ -1,9 +1,11 @@
 import requests
+from openai import OpenAI
 from abc import ABC, abstractmethod
 from telegram import Update
 from telegram.ext import CallbackContext
 from constants import constants
 from counter_module import counter
+import os
 
 
 
@@ -17,8 +19,9 @@ class Command(ABC):
 ### Concrete Commands ###
 class WeatherCommand(Command):
     async def execute(self, update: Update, context: CallbackContext):
+
         city = "Montevideo"  # You can modify this to get the city from user input
-        api_key = constants.OPEN_WEATHER_MAP_API_KEY
+        api_key = os.getenv('OPEN_WEATHER_MAP_API_KEY')
         url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric&lang=es"
         
         response = requests.get(url)
@@ -90,3 +93,37 @@ class CounterCommand(Command):
         new_counter_value = counter.counter_data[user_id] + 1
         counter.counter_data[user_id] = new_counter_value
         counter.save_counter_data()
+
+
+class SentimentAnalysisCommand(Command):
+    async def execute(self, update: Update, context: CallbackContext):
+        
+        client = OpenAI(
+        api_key=os.getenv('OPEN_AI_API_KEY')
+        )
+        # Collect the conversation history
+        chat_id = update.effective_chat.id
+        messages = context.bot_data.get(chat_id, [])
+        
+        # Prepare the conversation text
+        conversation_text = "\n".join(messages)
+
+        # Send the conversation to OpenAI for sentiment analysis
+        response = client.chat.completions.create(
+            model=constants.OPEN_AI_MODEL,
+            messages=[
+                #{"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": f"Analyze the sentiment of the following conversation and classify it as positive, negative, or neutral. Provide a brief explanation:\n\n{conversation_text}"}
+            ],
+            stream=True
+        )
+
+        # Extract the sentiment analysis result
+        sentiment_analysis: str = ''
+        for chunk in response:
+            if chunk.choices[0].delta.content is not None:
+                sentiment_analysis += chunk.choices[0].delta.content
+        
+
+        # Send the result back to the user
+        await context.bot.send_message(chat_id=chat_id, text=sentiment_analysis)

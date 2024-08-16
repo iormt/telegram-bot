@@ -12,4 +12,4 @@ class BotInvoker:
         if command_name in self.commands:
             await self.commands[command_name].execute(update, context)
         else:
-            await context.bot.send_message(chat_id=update.effective_chat.id, text='Unknown Command executed')
+            await context.bot.send_message(chat_id=update.effective_chat.id, text='Lo siento, no reconozco esa opción. Por favor, selecciona una opción del menú. 😊')

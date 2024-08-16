@@ -14,6 +14,7 @@ invoker = bot_invoker.BotInvoker()
 invoker.register('¡Quiero saber el clima!☀️', commands.WeatherCommand())
 invoker.register('¡Quiero contar!🔢', commands.CounterCommand())
 invoker.register('¡Analizar sentimiento!🤔', commands.SentimentAnalysisCommand())
+invoker.register('default', commands.FreeMessageCommand())
 
 
 # Define a function to handle the main menu
@@ -35,7 +36,9 @@ async def init_keyboard(update):
         [KeyboardButton("¡Analizar sentimiento!🤔")]
     ]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True, one_time_keyboard=True)
-    await update.message.reply_text('¡Hola! ¿Qué necesitas? 😊', reply_markup=reply_markup)
+    message = '¡Hola! ¿Qué necesitas? 😊'
+    message += '\nSelecciona una opción del menú o bien escribe tu consulta en un mensaje e intentaré ayudarte.' 
+    await update.message.reply_text(message, reply_markup=reply_markup)
 
 # Define a function to handle button presses
 async def handle_message(update: Update, context: CallbackContext):

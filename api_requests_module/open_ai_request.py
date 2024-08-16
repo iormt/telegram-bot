@@ -13,7 +13,6 @@ class OpenAIRequest:
         return self.client.chat.completions.create(
             model=constants.OPEN_AI_MODEL,
             messages=[
-                #{"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": f"{request_text}"}
             ],
             stream=True

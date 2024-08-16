@@ -1,8 +1,8 @@
-from commands_module.base_command import Command 
+from commands.base_command import Command 
 from telegram.ext import CallbackContext
 from telegram import Update
-from api_requests_module.open_ai_request import OpenAIRequest
-from api_requests_module.weather_request import OpenWeatherMapRequest
+from api_requests.open_ai_request import OpenAIRequest
+from api_requests.weather_request import OpenWeatherMapRequest
 
 
 class WeatherCommand(Command):

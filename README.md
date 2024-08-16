@@ -15,8 +15,11 @@ Este es un bot de Telegram programado en Python
     - Telegram Bot API token
     - Open Weather Map API key
     - OpenAI API key
-    El projecto incluye un archivo .env.example para referencia
 
 ## Dependencias
     Instala las dependencias necesarias usando pip:
         pip install -r requirements.txt
+
+## Referencias a API keys
+    El projecto incluye un archivo '.env.example', que debe ser copiado y renombrado a '.env'
+    Dentro de este archivo, deben colocarse las API keys obtenidas previamente.

@@ -3,7 +3,7 @@ import os
 import config.constants as constants
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import Application, CommandHandler, CallbackContext, ContextTypes, filters, MessageHandler
-from commands_module import bot_invoker, counter_command, free_message_command, sentiment_analysis_command, weather_command
+from commands import bot_invoker, counter_command, free_message_command, sentiment_analysis_command, weather_command
 from dotenv import load_dotenv
 
 

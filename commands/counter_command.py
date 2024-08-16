@@ -1,7 +1,7 @@
-from commands_module.base_command import Command 
+from commands.base_command import Command 
 from telegram import Update
 from telegram.ext import CallbackContext
-from counter_module import counter
+from counter import counter
 
 class CounterCommand(Command):
     async def execute(self, update: Update, context: CallbackContext):

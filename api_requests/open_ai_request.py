@@ -1,7 +1,7 @@
-import config.constants as constants
 from openai import OpenAI
 import os
 from ratelimit import limits, sleep_and_retry
+from config import constants
 
 
 class OpenAIRequest:
@@ -17,14 +17,26 @@ class OpenAIRequest:
     @limits(calls=5, period=60)
 
 
-    def make_request(self, request_text):
+    def make_text_request(self, request_text):
         try:
             response = self.client.chat.completions.create(
-                model=constants.OPEN_AI_MODEL,
+                model=constants.OPEN_AI_GPT_MODEL,
                 messages=[
                     {"role": "user", "content": f"{request_text}"}
                 ],
                 stream=True
+            )
+            return response
+        except Exception as e:
+            print(f'Error making API request: {e}')
+            return None
+
+
+    def make_whisper_request(self, audio_file):
+        try:
+            response = self.client.audio.transcriptions.create(
+                model=constants.OPEN_AI_WHISPER_MODEL,
+                file=audio_file
             )
             return response
         except Exception as e:

@@ -40,7 +40,7 @@ class WeatherCommand(Command):
     def get_open_ai_tips(self, message):
         request_text = f"Dado el siguiente mensaje:\n\n{message}\n\n Dar una recomendacion segun la descripcion el clima y ofrecer consejos adicionales o información interesante sobre la ciudad. Se breve"
         open_ai_requests = OpenAIRequest()
-        response = open_ai_requests.make_request(request_text)
+        response = open_ai_requests.make_text_request(request_text)
 
         # Extract the sentiment analysis result
         tips_and_information: str = ''

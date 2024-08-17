@@ -8,7 +8,7 @@ class FreeMessageCommand(Command):
         chat_id = update.effective_chat.id
         request_text = context.bot_data['free_message']
         open_ai_requests = OpenAIRequest()
-        response = open_ai_requests.make_request(request_text)
+        response = open_ai_requests.make_text_request(request_text)
         
         response_text: str = ''
         for chunk in response:

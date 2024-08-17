@@ -19,7 +19,7 @@ class SentimentAnalysisCommand(Command):
         request_text += f'\n\n{conversation_text}'
         # Send the conversation to OpenAI for sentiment analysis
         open_ai_requests = OpenAIRequest()
-        response = open_ai_requests.make_request(request_text)
+        response = open_ai_requests.make_text_request(request_text)
 
         # Extract the sentiment analysis result
         sentiment_analysis: str = ''

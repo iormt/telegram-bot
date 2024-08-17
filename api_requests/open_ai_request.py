@@ -22,7 +22,7 @@ class OpenAIRequest:
             response = self.client.chat.completions.create(
                 model=constants.OPEN_AI_GPT_MODEL,
                 messages=[
-                    {"role": "user", "content": f"{request_text}"}
+                    {"role": "user", "content": f"Responde en español: {request_text}"}
                 ],
                 stream=True
             )

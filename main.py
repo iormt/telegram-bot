@@ -1,4 +1,5 @@
 import os
+import re
 import config.constants as constants
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import Application, CommandHandler, CallbackContext, ContextTypes, filters, MessageHandler
@@ -29,23 +30,40 @@ async def init_keyboard(update):
 
 # Define a function to handle button presses
 async def handle_message(update: Update, context: CallbackContext):
-    command_name = update.message.text
-    MessageHistory.add_message_to_history(update, context, command_name)
+    MessageHistory.add_message_to_history(update, context, update.message.text)
+    command_name = get_command(update.message.text)
     await invoker.execute(command_name, update, context)
+
+def get_command(text: str):
+    text_in_lowercase = text.lower()
+    
+    if re.search(r"quiero.*?saber.*?clima", text_in_lowercase):
+        return "clima"
+    elif re.search(r"quiero.*?contar", text_in_lowercase):
+        return "contar"
+    elif re.search(r"analizar.*?sentimiento", text_in_lowercase):
+        return "sentimiento"
+    else:
+        return text
+
 
 
 async def handle_voice(update: Update, context: CallbackContext):
-    file = await update.message.voice.get_file()
-    file_path = await file.download_to_drive()
+    try:
+        file = await update.message.voice.get_file()
+        file_path = await file.download_to_drive()
 
-    # Convert the audio file to text using OpenAI Whisper
-    with open(file_path, 'rb') as audio_file:
-        open_ai_requests = OpenAIRequest()
-        response = open_ai_requests.make_whisper_request(audio_file)
-    
-    transcription = response.text
-    MessageHistory.add_message_to_history(update, context, transcription)
-    await invoker.execute(transcription, update, context)
+        # Convert the audio file to text using OpenAI Whisper
+        with open(file_path, 'rb') as audio_file:
+            open_ai_requests = OpenAIRequest()
+            response = open_ai_requests.make_whisper_request(audio_file)
+        
+        MessageHistory.add_message_to_history(update, context, response.text)
+        transcription = get_command(response.text)
+        await invoker.execute(transcription, update, context)
+    finally:
+        os.remove(file_path)
+
 
 
 async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -58,13 +76,16 @@ if __name__ == '__main__':
     # Load environment variables from .env file
     load_dotenv()
 
+    # Create data dir
+    os.makedirs("data", exist_ok=True)
+
     # Initialize the invoker
     invoker = bot_invoker.BotInvoker()
 
     # Register commands to invoker
-    invoker.register('¡Quiero saber el clima!☀️', weather_command.WeatherCommand())
-    invoker.register('¡Quiero contar!🔢', counter_command.CounterCommand())
-    invoker.register('¡Analizar sentimiento!🤔', sentiment_analysis_command.SentimentAnalysisCommand())
+    invoker.register('clima', weather_command.WeatherCommand())
+    invoker.register('contar', counter_command.CounterCommand())
+    invoker.register('sentimiento', sentiment_analysis_command.SentimentAnalysisCommand())
     invoker.register('default', free_message_command.FreeMessageCommand())
 
     # Set up the updater and dispatcher

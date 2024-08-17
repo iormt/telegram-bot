@@ -8,7 +8,8 @@ Este es un bot de Telegram programado en Python
         * Analizar sentimiento de la conversación con OpenAI
     
     * Funcionalidad libre:
-        Agregué la posibilidad de hacer consultas libres a Open AI, para dar la posibilidad al usuario de responder otras interrogantes.
+        Decidí agregar la funcionalidad al bot de interpretar mensajes de voz. Considero que mejora la experiencia del usuario porque la comunicación a través de mensages de voz es muy usada y añade una forma más ágil de hacer pedidos al bot.
+        También agregué la posibilidad de realizar consultas a Open AI para poder tener conversaciones más ricas a la hora de utilizar la funcionalidad de analizar el sentimiento de la conversación.
 
 # Instalación
 ## Requisitos previos

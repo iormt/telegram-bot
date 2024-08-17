@@ -3,17 +3,13 @@ from telegram.ext import CallbackContext
 from telegram import Update
 from api_requests.open_ai_request import OpenAIRequest
 from api_requests.weather_request import OpenWeatherMapRequest
+from config import constants
 
 
 class WeatherCommand(Command):
     async def execute(self, update: Update, context: CallbackContext):
 
-        city = "Montevideo"  # You can modify this to get the city from user input
-        """
-        api_key = os.getenv('OPEN_WEATHER_MAP_API_KEY')
-        url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric&lang=es"
-        response = requests.get(url)
-        """
+        city = constants.CITY_NAME  # You can modify this to get the city from user input
         weather_requests = OpenWeatherMapRequest()
         response = weather_requests.make_request(city)
         if response.status_code != 200:

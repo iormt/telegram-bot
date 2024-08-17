@@ -1,18 +1,26 @@
 # telegram-bot
-Este es un bot de Telegram programado en Python
+Este es un bot de Telegram programado en Python. 
 
 # Características
-    * Menú principal
+    * Menú principal:
         * Consultar el clima con OpenWeatherMap y OpenAI
         * Contar añadiendo una unidad a un contador persistido por usuario
         * Analizar sentimiento de la conversación con OpenAI
     
-    * Funcionalidad libre:
-        Decidí agregar la funcionalidad al bot de interpretar mensajes de voz. Considero que mejora la experiencia del usuario porque la comunicación a través de mensages de voz es muy usada y añade una forma más ágil de hacer pedidos al bot.
-        También agregué la posibilidad de realizar consultas a Open AI para poder tener conversaciones más ricas a la hora de utilizar la funcionalidad de analizar el sentimiento de la conversación.
+    * Reconocimiento de mensajes de voz:
+        Considero que mejora la experiencia del usuario porque la comunicación a través de mensages de voz es muy usada y añade una forma más ágil de hacer pedidos al bot. 
+        Además de que puede mejorar la accesibilidad para usuarios con facultades motoras restringidas. 
+    
+    * Consultas directas a OpenAI:
+        También agregué la posibilidad de realizar consultas a Open AI para poder tener conversaciones más ricas a la hora de utilizar la funcionalidad de analizar el sentimiento de la conversación. 
+    
+    * Localización:
+        Facilita la posibilidad de que el bot pueda ser utilizado por personas que hablan distintos lenguajes
+
 
 # Instalación
 ## Requisitos previos
+    * Requiere Python 3.11.8 o posterior.
     * Telegram Bot API token (Necesitas crear un bot de telegram con @BotFather: https://core.telegram.org/bots/features#creating-a-new-bot)
     * Open Weather Map API key (https://openweathermap.org/appid)
     * OpenAI API key (https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key)

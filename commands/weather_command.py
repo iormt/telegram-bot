@@ -3,6 +3,7 @@ from telegram.ext import CallbackContext
 from telegram import Update
 from api_requests.open_ai_request import OpenAIRequest
 from api_requests.weather_request import OpenWeatherMapRequest
+from localizations import localization_handler
 from config import constants
 
 
@@ -27,26 +28,30 @@ class WeatherCommand(Command):
     def create_message(self, city, data):
         weather_description = data['weather'][0]['description']
         temperature = data['main']['temp']
-
-        message = f"El clima en {city} es {weather_description} con una temperatura de {temperature}°C. "
+        message = localization_handler.get_localized_text("weather_request_description_message", 
+                                                          city=city, weather_description=weather_description, temperature=temperature)
         message += '\n\n' + self.get_open_ai_tips(message)
         return message
 
 
     def get_open_ai_tips(self, message):
-        request_text = f"Dado el siguiente mensaje:\n\n{message}\n\n Dar una recomendacion segun la descripcion el clima y ofrecer consejos adicionales o información interesante sobre la ciudad. Se breve"
+        request_text = localization_handler.get_localized_text("weather_openai_tips_request", message=message)
         open_ai_requests = OpenAIRequest()
         response = open_ai_requests.make_text_request(request_text)
 
-        # Extract the sentiment analysis result
-        tips_and_information: str = ''
-        for chunk in response:
-            if chunk.choices[0].delta.content is not None:
-                tips_and_information += chunk.choices[0].delta.content
+        tips_and_information: str = localization_handler.get_localized_text("tips_and_information_request_error_message")
+
+        if response is not None:
+            # Extract the sentiment analysis result
+            tips_and_information = ''
+            for chunk in response:
+                if chunk.choices[0].delta.content is not None:
+                    tips_and_information += chunk.choices[0].delta.content
+                    
         return tips_and_information
 
 
     async def handle_error_response(self, update, context, response):
-        message = "No se pudo obtener la información del clima. Por favor, intenta de nuevo más tarde."
+        message = localization_handler.get_localized_text("weather_request_error_message")
         print(f'Weather request returned status code: {response.status_code}. Problem is {response.reason}')
         await context.bot.send_message(chat_id=update.effective_chat.id, text=message)

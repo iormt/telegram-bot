@@ -37,6 +37,6 @@ Este es un bot de Telegram programado en Python
         python main.py
         o
         python3 main.py
-    5. Inicia una conversación con tu Bot utilizando el comando /start desde el botón Menú o escribiendolo como mensaje
+    5. Inicia una conversación con tu Bot utilizando el comando /start desde el botón Menú o escribiéndolo como mensaje
     
 

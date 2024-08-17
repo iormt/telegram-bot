@@ -2,6 +2,7 @@ from commands.base_command import Command
 from telegram import Update
 from telegram.ext import CallbackContext
 from api_requests.open_ai_request import OpenAIRequest
+from localizations import localization_handler
 
 
 class SentimentAnalysisCommand(Command):
@@ -15,17 +16,21 @@ class SentimentAnalysisCommand(Command):
         conversation_text = "\n".join(messages)
 
         # Prepare request text 
-        request_text = 'Analiza el sentimiento de la siguiente conversacion y clasificala como positivo, negativo o neutral. Provee una breve explicacion:'
+        request_text = localization_handler.get_localized_text("sentiment_analysis_request")
         request_text += f'\n\n{conversation_text}'
         # Send the conversation to OpenAI for sentiment analysis
         open_ai_requests = OpenAIRequest()
         response = open_ai_requests.make_text_request(request_text)
 
-        # Extract the sentiment analysis result
-        sentiment_analysis: str = ''
-        for chunk in response:
-            if chunk.choices[0].delta.content is not None:
-                sentiment_analysis += chunk.choices[0].delta.content
+        # Set sentiment analysis default message
+        sentiment_analysis: str = localization_handler.get_localized_text("sentiment_analysis_request_error")
+        
+        # Extract the response text
+        if response is not None:
+            sentiment_analysis = ''
+            for chunk in response:
+                if chunk.choices[0].delta.content is not None:
+                    sentiment_analysis += chunk.choices[0].delta.content
         
 
         # Send the result back to the user

@@ -2,12 +2,14 @@ from commands.base_command import Command
 from telegram import Update
 from telegram.ext import CallbackContext
 from counter import counter
+from localizations import localization_handler
+
 
 class CounterCommand(Command):
     async def execute(self, update: Update, context: CallbackContext):
         user_id = str(update.message.from_user.id)
         self.increment_counter(user_id)
-        message = f"Contador: {counter.counter_data[user_id]}"
+        message = f'{localization_handler.get_localized_text("counter_message")}{counter.counter_data[user_id]}'
         await context.bot.send_message(chat_id=update.effective_chat.id, text=message)
 
 

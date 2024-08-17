@@ -1,6 +1,7 @@
 import os
 import requests
 from ratelimit import limits, sleep_and_retry
+from config import constants
 
 
 class OpenWeatherMapRequest:
@@ -16,7 +17,7 @@ class OpenWeatherMapRequest:
     def make_request(self, city):
         try:
             api_key = os.getenv('OPEN_WEATHER_MAP_API_KEY')
-            url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric&lang=es"
+            url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric&lang={constants.CURRENT_LANGUAGE}"
             response = requests.get(url)
             return response
         except Exception as e:

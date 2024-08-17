@@ -1,8 +1,8 @@
-from openai import OpenAI
 import os
+from openai import OpenAI
 from ratelimit import limits, sleep_and_retry
 from config import constants
-
+from localizations import localization_handler
 
 class OpenAIRequest:
     def __init__(self):
@@ -22,7 +22,7 @@ class OpenAIRequest:
             response = self.client.chat.completions.create(
                 model=constants.OPEN_AI_GPT_MODEL,
                 messages=[
-                    {"role": "user", "content": f"Responde en español: {request_text}"}
+                    {"role": "user", "content": f'{localization_handler.get_localized_text("openai_request_languaje")}{request_text}'}
                 ],
                 stream=True
             )

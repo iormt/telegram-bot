@@ -15,7 +15,9 @@ Este es un bot de Telegram programado en Python.
         También agregué la posibilidad de realizar consultas a Open AI para poder tener conversaciones más ricas a la hora de utilizar la funcionalidad de analizar el sentimiento de la conversación. 
     
     * Localización:
-        Facilita la posibilidad de que el bot pueda ser utilizado por personas que hablan distintos lenguajes
+        Facilita la posibilidad de que el bot pueda ser utilizado por personas que hablan distintos lenguajes.
+        Nota: Para cambiar la localización, es necesario ir al achivo \config\constants.py y cambiar el valor de la constante CURRENT_LANGUAGE a alguno de los lenguajes soportados.
+        Actualmente "es" o "en" para español o inglés respectivamente.
 
 
 # Instalación

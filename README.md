@@ -24,7 +24,7 @@ Este es un bot de Telegram programado en Python.
 ## Requisitos previos
     * Requiere Python 3.11.8 o posterior.
     * Telegram Bot API token (Necesitas crear un bot de telegram con @BotFather: https://core.telegram.org/bots/features#creating-a-new-bot)
-    * Open Weather Map API key (https://openweathermap.org/appid)
+    * Open Weather Map API key (https://openweathermap.org/)
     * OpenAI API key (https://help.openai.com/en/articles/4936850-where-do-i-find-my-openai-api-key)
 
 ## Dependencias

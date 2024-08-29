@@ -1,0 +1,38 @@
+{
+    "en": {
+        "openai_request_languaje": "Reply in English: ", 
+        "counter_message": "Counter: ", 
+        "sentiment_analysis_request": "Analyze the sentiment of the following conversation and classify it as positive, negative, or neutral. Provide a brief explanation:", 
+        "weather_request_description_message": "The weather in {city} is {weather_description} with a temperature of {temperature}°C. ", 
+        "weather_openai_tips_request": "Given the following message:\n\n{message}\n\n Igve a recommendation based on the weather description and offer aditional tips with interesting information about the City. Be brief",
+        "weather_request_error_message": "I couldn't get information about the weather. Please, try later.", 
+        "main_weather_request_button_text": "I want to know about the weather!☀️", 
+        "main_count_button_text": "I want to count!🔢", 
+        "main_sentiment_analysis_request_button_text": "¡Analyze sentiment!🤔", 
+        "main_welcome_message": "Hello! What do you need? 😊\n\nSelect an option from the menu, send a voice message or write down your request and I'll try to help.", 
+        "main_weather_command_regex": "want.*?know.*?weather", 
+        "main_count_command_regex": "want.*?count", 
+        "main_analyze_sentiment_command_regex": "analyze.*?sentiment",
+        "sentiment_analysis_request_error" : "Open AI isn't availible right now. Try again later.",
+        "free_openai_message_request_error" : "Open AI isn't availible right now. \n\nTry with the menu options.",
+        "whisper_request_error_message" : "I can't interpret voice messages right now. \n\nTry agaian later or try with the menu options."
+    },
+    "es": {
+        "openai_request_languaje": "Responde en español: ", 
+        "counter_message": "Contador: ", 
+        "sentiment_analysis_request": "Analiza el sentimiento de la siguiente conversacion y clasificala como positivo, negativo o neutral. Provee una breve explicacion:", 
+        "weather_request_description_message": "El clima en {city} es {weather_description} con una temperatura de {temperature}°C. ", 
+        "weather_openai_tips_request": "Dado el siguiente mensaje:\n\n{message}\n\n Dar una recomendacion segun la descripcion el clima y ofrecer consejos adicionales o información interesante sobre la ciudad. Se breve",
+        "weather_request_error_message": "No pude obtener la información del clima. Por favor, intenta de nuevo más tarde.", 
+        "main_weather_request_button_text": "¡Quiero saber el clima!☀️", 
+        "main_count_button_text": "¡Quiero contar!🔢", 
+        "main_sentiment_analysis_request_button_text": "¡Analizar sentimiento!🤔", 
+        "main_welcome_message": "¡Hola! ¿Qué necesitas? 😊\n\nSelecciona una opción del menú, envía un mensaje de voz o escribe tu consulta e intentaré ayudarte.", 
+        "main_weather_command_regex": "quiero.*?saber.*?clima", 
+        "main_count_command_regex": "quiero.*?contar", 
+        "main_analyze_sentiment_command_regex": "analizar.*?sentimiento",
+        "sentiment_analysis_request_error" : "En este momento OpenAI no está disponible. Intentalo luego más tarde.",
+        "free_openai_message_request_error" : "En este momento OpenAI no está disponible para consultas.\nIntenta con alguna de las opciones del menú",
+        "whisper_request_error_message" : "En este momento no puedo interpretar tus mensajes de voz.\nIntenta más tarde o intenta con alguna de las opciones del menú"
+    }
+}
